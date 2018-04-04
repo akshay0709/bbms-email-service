@@ -5,6 +5,6 @@ var ctrlEmail = require('../controllers/broadcast.controller.js');
 
 router
     .route('/send/:location')
-    .get(ctrlEmail.broadcastByLocation);
+    .post(ctrlEmail.broadcastByLocation);
 
 module.exports = router;

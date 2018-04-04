@@ -5,21 +5,24 @@ const sendGridMail = require('@sendgrid/mail');
 var config = JSON.parse(fs.readFileSync("./config.json"));
 sendGridMail.setApiKey(config.sendgridkey);
 
-var sendEmail = function(firstname, lastname, emailTo){
-    console.log(firstname);
+var sendEmail = function(firstname, lastname, emailTo, subject, message, cb){
     var mailOptions = {
         to: emailTo,
         from: 'akshay.pawar@csu.fullerton.edu',
-        subject: 'Blood Donation Camp',
-        text: 'Hi' + firstname + ' ' + lastname + 'there is a blood donation drive nearby.',
-        html: '<strong> Hi ' + firstname + ' ' + lastname + ' there is a blood donation drive nearby.</strong>',
+        subject: subject,
+        text: 'Hi' + firstname + ' ' + lastname + ' ' + message,
+        html: '<strong> Hi ' + firstname + ' ' + lastname + '</br>' + message + '</strong>',
     };
-    sendGridMail.send(mailOptions);   
+    sendGridMail.send(mailOptions, function(error, response){
+         cb(error, response);
+    });
 };
 
 module.exports.broadcastByLocation = function(request,response){
     console.log('Entered sendEmail function');
     console.log(request.params.location);
+    console.log(request.body.subject);
+    console.log(request.body.message);
 
     Broadcast
         .find({'city': request.params.location})
@@ -34,8 +37,15 @@ module.exports.broadcastByLocation = function(request,response){
                     var firstname = user.firstname;
                     var lastname = user.lastname;
                     var emailTo = user.email;
-                    sendEmail(firstname, lastname, emailTo);
+                    sendEmail(firstname, lastname, emailTo, request.body.subject, request.body.message, function(error, resp){
+                        if(error){
+                            console.log('Error occured for ' + firstname + ' ' + lastname);
+                        }
+                    });
                 });
+                response
+                    .status(202)
+                    .json({'message': 'emails sent.'});
             }
         });
 };
