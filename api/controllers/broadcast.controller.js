@@ -20,12 +20,12 @@ var sendEmail = function(firstname, lastname, emailTo, subject, message, cb){
 
 module.exports.broadcastByLocation = function(request,response){
     console.log('Entered sendEmail function');
-    console.log(request.params.location);
+    console.log(request.query.city);
     console.log(request.body.subject);
     console.log(request.body.message);
 
     Broadcast
-        .find({'city': request.params.location})
+        .find({'city': request.query.city})
         .exec(function(error, users){
             if(error){
                 console.log(error);
