@@ -7,4 +7,8 @@ router
     .route('/send')
     .post(ctrlEmail.broadcastByLocation);
 
+router
+    .route('/pastbroadcasts/:username')
+    .get(ctrlEmail.getPastBroadcastByUsername);
+    
 module.exports = router;

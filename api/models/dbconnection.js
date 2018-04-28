@@ -37,3 +37,4 @@ process.once('SIGUSR2', function(){   //Service providers like Heroku
 });
 
 require('./broadcast.model.js');
+require('./broadcastdata.model');
