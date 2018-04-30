@@ -5,7 +5,7 @@ var path = require('path');
 var routes = require('./api/routes');
 var bodyparser = require('body-parser');
 
-app.set('port',3008);
+app.set('port', process.env.PORT || 3008);
 
 //Middleware - Logging requests that comes in
 app.use(function(request, response, next){
