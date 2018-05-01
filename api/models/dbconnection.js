@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-var dburl = 'mongodb://localhost:27017/memberDB';
+var config = require('../../config.js');
+var dburl = config.dburl;
 
 mongoose.connect(dburl);
 
