@@ -1,10 +1,10 @@
+require('dotenv').config();
 require('./api/models/dbconnection.js');
 var express = require('express');
 var app = express();
 var path = require('path');
 var routes = require('./api/routes');
 var bodyparser = require('body-parser');
-
 app.set('port', process.env.PORT || 3008);
 
 //Middleware - Logging requests that comes in

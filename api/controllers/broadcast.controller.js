@@ -4,7 +4,7 @@ var Broadcast = mongoose.model('Broadcast');
 var BroadcastData = mongoose.model('BroadcastData');
 const sendGridMail = require('@sendgrid/mail');
 var config = JSON.parse(fs.readFileSync("./config.json"));
-sendGridMail.setApiKey(config.sendgridkey);
+sendGridMail.setApiKey(process.env.SENDGRID_KEY);
 
 var sendEmail = function(firstname, lastname, emailTo, subject, message, cb){
     var mailOptions = {
